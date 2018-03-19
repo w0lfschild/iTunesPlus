@@ -1,0 +1,342 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FBB0570E205F1DA400C42495 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FBB0570D205F1DA400C42495 /* Info.plist */; };
+		FBB05711205F1DA400C42495 /* iTunesPlus.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB05710205F1DA400C42495 /* iTunesPlus.m */; };
+		FBB05715205F1DA400C42495 /* ZKSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB05714205F1DA400C42495 /* ZKSwizzle.m */; };
+		FBB05717205F1DA400C42495 /* PrefixHeader.pch in Resources */ = {isa = PBXBuildFile; fileRef = FBB05716205F1DA400C42495 /* PrefixHeader.pch */; };
+		FBB05722205F304600C42495 /* ModernOverlay.png in Resources */ = {isa = PBXBuildFile; fileRef = FBB05720205F304500C42495 /* ModernOverlay.png */; };
+		FBB05723205F304600C42495 /* ClassicOverlay.png in Resources */ = {isa = PBXBuildFile; fileRef = FBB05721205F304600C42495 /* ClassicOverlay.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FBB05704205F1DA400C42495 /* iTunesPlus.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTunesPlus.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		FBB0570D205F1DA400C42495 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FBB05710205F1DA400C42495 /* iTunesPlus.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iTunesPlus.m; sourceTree = "<group>"; };
+		FBB05713205F1DA400C42495 /* ZKSwizzle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZKSwizzle.h; path = ZKSwizzle/ZKSwizzle.h; sourceTree = "<group>"; };
+		FBB05714205F1DA400C42495 /* ZKSwizzle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZKSwizzle.m; path = ZKSwizzle/ZKSwizzle.m; sourceTree = "<group>"; };
+		FBB05716205F1DA400C42495 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		FBB0571F205F2A3300C42495 /* iTunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunes.h; sourceTree = "<group>"; };
+		FBB05720205F304500C42495 /* ModernOverlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ModernOverlay.png; sourceTree = "<group>"; };
+		FBB05721205F304600C42495 /* ClassicOverlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClassicOverlay.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FBB05701205F1DA400C42495 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FBB056FB205F1DA400C42495 = {
+			isa = PBXGroup;
+			children = (
+				FBB0570B205F1DA400C42495 /* iTunesPlus */,
+				FBB05705205F1DA400C42495 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FBB05705205F1DA400C42495 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FBB05704205F1DA400C42495 /* iTunesPlus.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FBB0570B205F1DA400C42495 /* iTunesPlus */ = {
+			isa = PBXGroup;
+			children = (
+				FBB05712205F1DA400C42495 /* ZKSwizzle */,
+				FBB0570C205F1DA400C42495 /* Supporting Files */,
+				FBB05724205F306900C42495 /* Overlays */,
+				FBB0571F205F2A3300C42495 /* iTunes.h */,
+				FBB05710205F1DA400C42495 /* iTunesPlus.m */,
+			);
+			path = iTunesPlus;
+			sourceTree = "<group>";
+		};
+		FBB0570C205F1DA400C42495 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FBB0570D205F1DA400C42495 /* Info.plist */,
+				FBB05716205F1DA400C42495 /* PrefixHeader.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FBB05712205F1DA400C42495 /* ZKSwizzle */ = {
+			isa = PBXGroup;
+			children = (
+				FBB05713205F1DA400C42495 /* ZKSwizzle.h */,
+				FBB05714205F1DA400C42495 /* ZKSwizzle.m */,
+			);
+			name = ZKSwizzle;
+			sourceTree = "<group>";
+		};
+		FBB05724205F306900C42495 /* Overlays */ = {
+			isa = PBXGroup;
+			children = (
+				FBB05721205F304600C42495 /* ClassicOverlay.png */,
+				FBB05720205F304500C42495 /* ModernOverlay.png */,
+			);
+			name = Overlays;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FBB05703205F1DA400C42495 /* iTunesPlus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FBB0571A205F1DA400C42495 /* Build configuration list for PBXNativeTarget "iTunesPlus" */;
+			buildPhases = (
+				FBB05700205F1DA400C42495 /* Sources */,
+				FBB05701205F1DA400C42495 /* Frameworks */,
+				FBB05702205F1DA400C42495 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iTunesPlus;
+			productName = iTunesPlus;
+			productReference = FBB05704205F1DA400C42495 /* iTunesPlus.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FBB056FC205F1DA400C42495 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = "Wolfgang Baird";
+				TargetAttributes = {
+					FBB05703205F1DA400C42495 = {
+						CreatedOnToolsVersion = 9.0.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = FBB056FF205F1DA400C42495 /* Build configuration list for PBXProject "iTunesPlus" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FBB056FB205F1DA400C42495;
+			productRefGroup = FBB05705205F1DA400C42495 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FBB05703205F1DA400C42495 /* iTunesPlus */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FBB05702205F1DA400C42495 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBB05717205F1DA400C42495 /* PrefixHeader.pch in Resources */,
+				FBB05723205F304600C42495 /* ClassicOverlay.png in Resources */,
+				FBB05722205F304600C42495 /* ModernOverlay.png in Resources */,
+				FBB0570E205F1DA400C42495 /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FBB05700205F1DA400C42495 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBB05711205F1DA400C42495 /* iTunesPlus.m in Sources */,
+				FBB05715205F1DA400C42495 /* ZKSwizzle.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		FBB05718205F1DA400C42495 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		FBB05719205F1DA400C42495 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+			};
+			name = Release;
+		};
+		FBB0571B205F1DA400C42495 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DEVELOPMENT_TEAM = EX596BNL45;
+				DSTROOT = /;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iTunesPlus/PrefixHeader.pch;
+				INFOPLIST_FILE = iTunesPlus/Info.plist;
+				INSTALL_PATH = "/Library/Application Support/SIMBL/Plugins";
+				MACH_O_TYPE = mh_dylib;
+				PRODUCT_BUNDLE_IDENTIFIER = org.w0lf.iTunesPlus;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		FBB0571C205F1DA400C42495 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DEVELOPMENT_TEAM = EX596BNL45;
+				DSTROOT = /;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iTunesPlus/PrefixHeader.pch;
+				INFOPLIST_FILE = iTunesPlus/Info.plist;
+				INSTALL_PATH = "/Library/Application Support/SIMBL/Plugins";
+				MACH_O_TYPE = mh_dylib;
+				PRODUCT_BUNDLE_IDENTIFIER = org.w0lf.iTunesPlus;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FBB056FF205F1DA400C42495 /* Build configuration list for PBXProject "iTunesPlus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FBB05718205F1DA400C42495 /* Debug */,
+				FBB05719205F1DA400C42495 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FBB0571A205F1DA400C42495 /* Build configuration list for PBXNativeTarget "iTunesPlus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FBB0571B205F1DA400C42495 /* Debug */,
+				FBB0571C205F1DA400C42495 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FBB056FC205F1DA400C42495 /* Project object */;
+}

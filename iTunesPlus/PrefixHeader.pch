@@ -1,0 +1,16 @@
+//
+//  PrefixHeader.pch
+//  iTunesPlus
+//
+//  Created by Wolfgang Baird on 3/18/18.
+//Copyright © 2018 Wolfgang Baird. All rights reserved.
+//
+
+#ifndef iTunesPlus_PrefixHeader_pch
+#define iTunesPlus_PrefixHeader_pch
+
+#import <Cocoa/Cocoa.h>
+#import "ZKSwizzle.h"
+
+#endif
+

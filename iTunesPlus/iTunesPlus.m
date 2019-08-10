@@ -263,6 +263,34 @@ NSUInteger osx_ver;
         [newImage unlockFocus];
         resultIMG = newImage;
     }
+    
+    if (resultType == 5) {
+        if (![classicPath length]) {
+            classicPath = @"/tmp";
+            NSBundle* bundle = [NSBundle bundleWithIdentifier:@"org.w0lf.iTunesPlus"];
+            NSString* bundlePath = [bundle bundlePath];
+            if ([bundlePath length])
+                classicPath = [bundlePath stringByAppendingString:@"/Contents/Resources/NewOverlay.png"];
+        }
+        
+        NSData *imageData = [[NSImage alloc] initWithContentsOfFile:classicPath].TIFFRepresentation;
+        CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)imageData, NULL);
+        CGImageRef maskRef =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
+        CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
+                                            CGImageGetHeight(maskRef),
+                                            CGImageGetBitsPerComponent(maskRef),
+                                            CGImageGetBitsPerPixel(maskRef),
+                                            CGImageGetBytesPerRow(maskRef),
+                                            CGImageGetDataProvider(maskRef), nil, YES);
+        
+        NSData *imageData2 = stockCover.TIFFRepresentation;
+        CGImageSourceRef source2 = CGImageSourceCreateWithData((__bridge CFDataRef)imageData2, NULL);
+        CGImageRef maskRef2 =  CGImageSourceCreateImageAtIndex(source2, 0, NULL);
+        CGImageRef masked = CGImageCreateWithMask(maskRef2, mask);
+        NSSize dims = [[NSApp dockTile] size];
+        NSImage *newImage = [[NSImage alloc] initWithCGImage:masked size:CGSizeMake(dims.width, dims.height)];
+        resultIMG = newImage;
+    }
 
     if (resultIMG == nil) {
         resultIMG = stockCover;
@@ -297,6 +325,7 @@ NSUInteger osx_ver;
     [[submenuArt addItemWithTitle:@"Tilted" action:@selector(setIconArt:) keyEquivalent:@""] setTarget:plugin];
     [[submenuArt addItemWithTitle:@"Classic Circular" action:@selector(setIconArt:) keyEquivalent:@""] setTarget:plugin];
     [[submenuArt addItemWithTitle:@"Modern Circular" action:@selector(setIconArt:) keyEquivalent:@""] setTarget:plugin];
+    [[submenuArt addItemWithTitle:@"Rounded Corners" action:@selector(setIconArt:) keyEquivalent:@""] setTarget:plugin];
     for (NSMenuItem* item in [submenuArt itemArray]) [item setState:NSOffState];
     if (iconArt < submenuArt.itemArray.count) [[[submenuArt itemArray] objectAtIndex:iconArt] setState:NSOnState];
     [artMenu setSubmenu:submenuArt];

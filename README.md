@@ -5,8 +5,8 @@
 # Information:
 
 - Designed for macOS 10.9+
-- Designed for iTunes 10.0+
-- iTunesPlus is a [mySIMBL](https://github.com/w0lfschild/mySIMBL) plugin that adds some features to iTunes
+- Designed for iTunes 10.0+ and Music 1.0+
+- iTunesPlus is a [MacForge](https://github.com/w0lfschild/MacForge) plugin that adds some features to iTunes and Music
     - Change the dock icon to the now playing track art
         - None
         - Square
@@ -14,19 +14,20 @@
         - Classic Circular
         - Modern Circular
     - Add badge to app icon when muted or paused
-    - Restart iTunes
+    - Restart iTunes/Music
     - Settings in Dock menu and iTunes+ item in the menubar
 - Author: [w0lfschild](https://github.com/w0lfschild)
 
 # Installation:
 
-1. Download [mySIMBL](https://github.com/w0lfschild/app_updates/raw/master/mySIMBL/mySIMBL_master.zip)
+1. Download [MacForge](https://github.com/w0lfschild/app_updates/raw/master/MacForge/MacForge.zip)
 2. Download [iTunesPlus](https://github.com/w0lfschild/iTunesPlus/raw/master/build/iTunesPlus.bundle.zip)
 3. Unzip downloads
-4. Open `iTunesPlus.bundle` with `mySIMBL.app`
+4. Open `iTunesPlus.bundle` with `MacForge.app`
 5. Disable System Integrity Protection
-6. Disable Apple Mobile File Integrity : `sudo nvram boot-args="amfi_get_out_of_my_way=1 "; reboot`
-7. Open iTunes
+6. Disable Apple Mobile File Integrity : `sudo nvram boot-args="amfi_get_out_of_my_way=1"`
+7. Reboot
+7. Open iTunes or Music
 
 ### License:
 Pretty much the BSD license, just don't repackage it and call it your own please!    

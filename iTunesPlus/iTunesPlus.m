@@ -22,6 +22,8 @@ bool showBadge = true;
 int iconArt = 0;
 NSString *overlayPath;
 NSString *classicPath;
+NSUInteger osx_ver;
+
 
 @implementation iTunesPlus
 
@@ -37,20 +39,20 @@ NSString *classicPath;
 
 + (void)load {
     plugin = [iTunesPlus sharedInstance];
-    
+
     NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
     [dnc addObserver:plugin selector:@selector(updateTrackInfo:) name:@"com.apple.iTunes.playerInfo" object:nil];
-    
+
     if (!sharedPrefs) sharedPrefs = [NSUserDefaults standardUserDefaults];
     if ([sharedPrefs objectForKey:@"showBadge"] == nil) [sharedPrefs setBool:true forKey:@"showBadge"];
     if ([sharedPrefs objectForKey:@"iconArt"] == nil) [sharedPrefs setInteger:0 forKey:@"iconArt"];
-    
+
     showBadge = [[sharedPrefs objectForKey:@"showBadge"] boolValue];
     iconArt = (int)[sharedPrefs integerForKey:@"iconArt"];
-    
+
     [plugin setMenu];
-    
-    NSUInteger osx_ver = [[NSProcessInfo processInfo] operatingSystemVersion].minorVersion;
+
+    osx_ver = [[NSProcessInfo processInfo] operatingSystemVersion].minorVersion;
     NSLog(@"%@ loaded into %@ on macOS 10.%ld", [self class], [[NSBundle mainBundle] bundleIdentifier], (long)osx_ver);
 }
 
@@ -58,7 +60,10 @@ NSString *classicPath;
 //    NSDictionary *information = [notification userInfo];
 //    NSLog(@"iTunesPlus : track information: %@", information);
     iTunesApplication *app = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+    if (osx_ver >= 15)
+        app = [SBApplication applicationWithBundleIdentifier:@"com.apple.Music"];
     iTunesEPlS state = app.playerState;
+        
     if (state == iTunesEPlSPlaying) {
         iTunesTrack *currentTrack = app.currentTrack;
         if (currentTrack != nil) {
@@ -130,30 +135,30 @@ NSString *classicPath;
     NSSize    size = [img size];
     NSSize    newSize = NSMakeSize( size.width + 40,
                                    size.height + 40 );
-    
+
     //    NSSize rotatedSize = NSMakeSize(img.size.height, img.size.width) ;
     NSImage* rotatedImage = [[NSImage alloc] initWithSize:newSize] ;
-    
+
     NSAffineTransform* transform = [NSAffineTransform transform] ;
-    
+
     // In order to avoid clipping the image, translate
     // the coordinate system to its center
     //    [transform translateXBy:+img.size.width/2
     //                        yBy:+img.size.height/2] ;
-    
+
     [transform translateXBy:img.size.width / 2
                         yBy:img.size.height / 2];
-    
+
     // then rotate
     [transform rotateByDegrees:degrees] ;
-    
+
     // Then translate the origin system back to
     // the bottom left
     [transform translateXBy:-size.width/2
                         yBy:-size.height/2] ;
-    
+
     //
-    
+
     [rotatedImage lockFocus] ;
     [transform concat] ;
     [img drawAtPoint:NSMakePoint(15,10)
@@ -161,7 +166,7 @@ NSString *classicPath;
            operation:NSCompositeCopy
             fraction:1.0] ;
     [rotatedImage unlockFocus] ;
-    
+
     return rotatedImage;
 }
 
@@ -169,12 +174,12 @@ NSString *classicPath;
     NSImage *existingImage = image;
     NSSize newSize = [existingImage size];
     NSImage *composedImage = [[NSImage alloc] initWithSize:newSize];
-    
+
     float imgW = newSize.width;
     float imgH = newSize.height;
     float xShift = (imgW - (imgW * shrink)) / 2;
     float yShift = (imgH - (imgH * shrink)) / 2;
-    
+
     [composedImage lockFocus];
     [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
     NSRect imageFrame = NSRectFromCGRect(CGRectMake(xShift, yShift, (imgW * shrink), (imgH * shrink)));
@@ -183,12 +188,12 @@ NSString *classicPath;
     [clipPath addClip];
     [image drawAtPoint:NSZeroPoint fromRect:NSMakeRect(0, 0, imgW, imgH) operation:NSCompositeSourceOver fraction:1];
     [composedImage unlockFocus];
-    
+
     //    NSData *imageData = [composedImage TIFFRepresentation];
     //    NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:imageData];
     //    imageData = [imageRep representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
     //    [imageData writeToFile:@"/Users/w0lf/Desktop/spotifree.png" atomically:YES];
-    
+
     return composedImage;
 }
 
@@ -202,7 +207,7 @@ NSString *classicPath;
     if (resultType == 1) {
         resultIMG = stockCover;
     }
-    
+
     if (resultType == 2) {
         NSSize dims = [[NSApp dockTile] size];
 //        dims.width *= 0.9;
@@ -216,7 +221,7 @@ NSString *classicPath;
         smallImage = [plugin imageRotatedByDegrees:8.00 :smallImage];
         resultIMG = smallImage;
     }
-    
+
     if (resultType == 3) {
         if (![classicPath length]) {
             classicPath = @"/tmp";
@@ -237,7 +242,7 @@ NSString *classicPath;
         [newImage unlockFocus];
         resultIMG = newImage;
     }
-    
+
     if (resultType == 4) {
         if (![overlayPath length]) {
             overlayPath = @"/tmp";
@@ -258,11 +263,11 @@ NSString *classicPath;
         [newImage unlockFocus];
         resultIMG = newImage;
     }
-    
+
     if (resultIMG == nil) {
         resultIMG = stockCover;
     }
-    
+
     return resultIMG;
 }
 
@@ -270,14 +275,14 @@ NSString *classicPath;
     // Spotify+ meun item
     NSMenuItem *mainItem = [[NSMenuItem alloc] init];
     [mainItem setTitle:@"iTunes+"];
-    
+
     NSMenu* dockspotplusMenu = [plugin iTunesPlusMenu];
     [mainItem setSubmenu:dockspotplusMenu];
-    
+
     // Add iTunes+ item
     [original addItem:[NSMenuItem separatorItem]];
     [original addItem:mainItem];
-    
+
     return original;
 }
 
@@ -295,7 +300,7 @@ NSString *classicPath;
     for (NSMenuItem* item in [submenuArt itemArray]) [item setState:NSOffState];
     if (iconArt < submenuArt.itemArray.count) [[[submenuArt itemArray] objectAtIndex:iconArt] setState:NSOnState];
     [artMenu setSubmenu:submenuArt];
-    
+
     // iTunes+ submenu
     NSMenu *submenuRoot = [[NSMenu alloc] init];
     [submenuRoot setTitle:@"iTunes+"];
@@ -313,7 +318,7 @@ NSString *classicPath;
     if (original) {
         NSMenu* updatedMenu = original;
         [[updatedMenu itemWithTag:97] setState:showBadge];
-        
+
         NSMenuItem* artMenu = [updatedMenu itemWithTag:101];
         NSArray* artSub = [[artMenu submenu] itemArray];
         for (NSMenuItem* obj in artSub) [obj setState:NSOffState];

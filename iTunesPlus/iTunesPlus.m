@@ -23,6 +23,7 @@ bool showBadge = true;
 int iconArt = 0;
 NSString *overlayPath;
 NSString *classicPath;
+NSString *newOverlayPath;
 NSUInteger osx_ver;
 
 
@@ -61,6 +62,8 @@ NSUInteger osx_ver;
 //    NSDictionary *information = [notification userInfo];
 //    NSLog(@"iTunesPlus : track information: %@", information);
     if (osx_ver <= 14) {
+        // Mojave and below iTunes app support
+        
         iTunesApplication *app = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
         iTunesEPlS state = app.playerState;
             
@@ -84,6 +87,8 @@ NSUInteger osx_ver;
             }
         }
     } else {
+        // Catalina Music app support
+        
         MusicApplication *app = [SBApplication applicationWithBundleIdentifier:@"com.apple.Music"];
         MusicEPlS state = app.playerState;
 
@@ -93,6 +98,10 @@ NSUInteger osx_ver;
                 @try {
                     MusicArtwork *trackArt = currentTrack.artworks.firstObject;
                     NSImage *newArt = [[NSImage alloc] init];
+                    
+                    // For some reason in the Music app sometimes the expected return of NSImage from trackArt.data
+                    // is instead an NSAppleEventDescriptor containing raw data otherwise it's an image like normal.
+                    // Also trackArt.rawData appears to be no longer used and empty :(
                     if ([trackArt.data.className isEqualToString:@"NSAppleEventDescriptor"]) {
                         NSAppleEventDescriptor *t = (NSAppleEventDescriptor*)trackArt.data;
                         NSData *d = t.data;
@@ -307,15 +316,15 @@ NSUInteger osx_ver;
     }
     
     if (resultType == 5) {
-        if (![classicPath length]) {
-            classicPath = @"/tmp";
+        if (![newOverlayPath length]) {
+            newOverlayPath = @"/tmp";
             NSBundle* bundle = [NSBundle bundleWithIdentifier:@"org.w0lf.iTunesPlus"];
             NSString* bundlePath = [bundle bundlePath];
             if ([bundlePath length])
-                classicPath = [bundlePath stringByAppendingString:@"/Contents/Resources/NewOverlay.png"];
+                newOverlayPath = [bundlePath stringByAppendingString:@"/Contents/Resources/NewOverlay.png"];
         }
         
-        NSData *imageData = [[NSImage alloc] initWithContentsOfFile:classicPath].TIFFRepresentation;
+        NSData *imageData = [[NSImage alloc] initWithContentsOfFile:newOverlayPath].TIFFRepresentation;
         CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)imageData, NULL);
         CGImageRef maskRef =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
         CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),

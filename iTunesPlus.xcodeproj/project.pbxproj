@@ -17,6 +17,7 @@
 
 /* Begin PBXFileReference section */
 		FB5B2D0022FF64AB000FA9A4 /* NewOverlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewOverlay.png; sourceTree = "<group>"; };
+		FBA8333523483753008DD73E /* Music.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Music.h; sourceTree = "<group>"; };
 		FBB05704205F1DA400C42495 /* iTunesPlus.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTunesPlus.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBB0570D205F1DA400C42495 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FBB05710205F1DA400C42495 /* iTunesPlus.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iTunesPlus.m; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 				FBB0570C205F1DA400C42495 /* Supporting Files */,
 				FBB05724205F306900C42495 /* Overlays */,
 				FBB0571F205F2A3300C42495 /* iTunes.h */,
+				FBA8333523483753008DD73E /* Music.h */,
 				FBB05710205F1DA400C42495 /* iTunesPlus.m */,
 			);
 			path = iTunesPlus;
@@ -136,6 +138,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = FBB056FB205F1DA400C42495;
 			productRefGroup = FBB05705205F1DA400C42495 /* Products */;
@@ -290,6 +293,7 @@
 				INFOPLIST_FILE = iTunesPlus/Info.plist;
 				INSTALL_PATH = "/Library/Application Support/MacEnhance/Plugins";
 				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = org.w0lf.iTunesPlus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -312,6 +316,7 @@
 				INFOPLIST_FILE = iTunesPlus/Info.plist;
 				INSTALL_PATH = "/Library/Application Support/MacEnhance/Plugins";
 				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = org.w0lf.iTunesPlus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

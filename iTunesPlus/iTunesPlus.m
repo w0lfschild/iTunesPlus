@@ -8,6 +8,7 @@
 
 @import AppKit;
 #import "iTunes.h"
+#import "Music.h"
 
 @interface iTunesPlus : NSObject
 + (instancetype)sharedInstance;
@@ -59,30 +60,71 @@ NSUInteger osx_ver;
 - (void)updateTrackInfo:(NSNotification *)notification {
 //    NSDictionary *information = [notification userInfo];
 //    NSLog(@"iTunesPlus : track information: %@", information);
-    iTunesApplication *app = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-    if (osx_ver >= 15)
-        app = [SBApplication applicationWithBundleIdentifier:@"com.apple.Music"];
-    iTunesEPlS state = app.playerState;
-        
-    if (state == iTunesEPlSPlaying) {
-        iTunesTrack *currentTrack = app.currentTrack;
-        if (currentTrack != nil) {
-            SBElementArray *artworks = [currentTrack artworks];
-            iTunesArtwork *a = artworks[0];
-        //        NSLog(@"iTunesPlus : track information: %@", [a rawData]);
-            NSImage *img = [[NSImage alloc] initWithData:[a rawData]];
-            myImage = img;
-            if (iconArt > 0) {
-                if (img != nil) {
-                    [NSApp setApplicationIconImage:[self createIconImage:myImage :iconArt]];
+    if (osx_ver <= 14) {
+        iTunesApplication *app = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+        iTunesEPlS state = app.playerState;
+            
+        if (state == iTunesEPlSPlaying) {
+            iTunesTrack *currentTrack = app.currentTrack;
+            if (currentTrack != nil) {
+                SBElementArray *artworks = [currentTrack artworks];
+                iTunesArtwork *a = artworks[0];
+            //        NSLog(@"iTunesPlus : track information: %@", [a rawData]);
+                NSImage *img = [[NSImage alloc] initWithData:[a rawData]];
+                myImage = img;
+                if (iconArt > 0) {
+                    if (img != nil) {
+                        [NSApp setApplicationIconImage:[self createIconImage:myImage :iconArt]];
+                    } else {
+                        [NSApp setApplicationIconImage:nil];
+                    }
                 } else {
                     [NSApp setApplicationIconImage:nil];
+                }
+            }
+        }
+    } else {
+        MusicApplication *app = [SBApplication applicationWithBundleIdentifier:@"com.apple.Music"];
+        MusicEPlS state = app.playerState;
+
+        if (state == MusicEPlSPlaying) {
+            MusicTrack *currentTrack = app.currentTrack;
+            if (currentTrack != nil) {
+                @try {
+                    MusicArtwork *trackArt = currentTrack.artworks.firstObject;
+                    NSImage *newArt = [[NSImage alloc] init];
+                    if ([trackArt.data.className isEqualToString:@"NSAppleEventDescriptor"]) {
+                        NSAppleEventDescriptor *t = (NSAppleEventDescriptor*)trackArt.data;
+                        NSData *d = t.data;
+                        newArt = [[NSImage alloc] initWithData:d];
+                    } else {
+                        newArt = trackArt.data;
+                    }
+                    
+                    myImage = newArt;
+                    if (iconArt > 0) {
+                        if (newArt != nil) {
+                            [NSApp setApplicationIconImage:[self createIconImage:myImage :iconArt]];
+                        } else {
+                            [NSApp setApplicationIconImage:nil];
+                        }
+                    } else {
+                        [NSApp setApplicationIconImage:nil];
+                    }
+            
+                } @catch (NSException *exception) {
+                    NSLog(@"itp exception : %@", exception);
+                    [NSApp setApplicationIconImage:nil];
+                } @finally {
+                    NSLog(@"Fin");
                 }
             } else {
                 [NSApp setApplicationIconImage:nil];
             }
         }
     }
+    
+    
 }
 
 - (void)setMenu {
@@ -326,8 +368,8 @@ NSUInteger osx_ver;
     [[submenuArt addItemWithTitle:@"Classic Circular" action:@selector(setIconArt:) keyEquivalent:@""] setTarget:plugin];
     [[submenuArt addItemWithTitle:@"Modern Circular" action:@selector(setIconArt:) keyEquivalent:@""] setTarget:plugin];
     [[submenuArt addItemWithTitle:@"Rounded Corners" action:@selector(setIconArt:) keyEquivalent:@""] setTarget:plugin];
-    for (NSMenuItem* item in [submenuArt itemArray]) [item setState:NSOffState];
-    if (iconArt < submenuArt.itemArray.count) [[[submenuArt itemArray] objectAtIndex:iconArt] setState:NSOnState];
+    for (NSMenuItem* item in [submenuArt itemArray]) [item setState:NSControlStateValueOff];
+    if (iconArt < submenuArt.itemArray.count) [[[submenuArt itemArray] objectAtIndex:iconArt] setState:NSControlStateValueOn];
     [artMenu setSubmenu:submenuArt];
 
     // iTunes+ submenu
@@ -350,8 +392,8 @@ NSUInteger osx_ver;
 
         NSMenuItem* artMenu = [updatedMenu itemWithTag:101];
         NSArray* artSub = [[artMenu submenu] itemArray];
-        for (NSMenuItem* obj in artSub) [obj setState:NSOffState];
-        [[artSub objectAtIndex:iconArt] setState:NSOnState];
+        for (NSMenuItem* obj in artSub) [obj setState:NSControlStateValueOff];
+        [[artSub objectAtIndex:iconArt] setState:NSControlStateValueOn];
     }
 }
 

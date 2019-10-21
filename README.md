@@ -23,7 +23,7 @@
 1. Download [MacForge](https://github.com/w0lfschild/app_updates/raw/master/MacForge/MacForge.zip)
 2. Disable System Integrity Protection and Apple Mobile File Integrity : `sudo nvram boot-args="amfi_get_out_of_my_way=1"`
 3. Reboot
-4. Download [iTunesPlus](https://github.com/w0lfschild/iTunesPlus/raw/master/build/iTunesPlus.bundle.zip)
+4. Follw the link to Install [iTunesPlus](https://www.macenhance.com/mflink?macforge://github.com/w0lfschild/myRepo/raw/master/mytweaks/org.w0lf.iTunesPlus) using MacForge
 5. Open iTunes or Music
 
 ### License:

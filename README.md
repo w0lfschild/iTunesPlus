@@ -25,7 +25,3 @@
 3. Reboot
 4. Follw the link to Install [iTunesPlus](https://www.macenhance.com/mflink?macforge://github.com/w0lfschild/myRepo/raw/master/mytweaks/org.w0lf.iTunesPlus) using MacForge
 5. Open iTunes or Music
-
-### License:
-Pretty much the BSD license, just don't repackage it and call it your own please!    
-Also if you do make some changes, feel free to make a pull request and help make things more awesome!

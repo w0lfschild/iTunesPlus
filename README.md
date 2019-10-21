@@ -1,6 +1,6 @@
 # iTunesPlus
 
-![preview](preview.png) 
+![preview](Media/01.png) 
 
 # Information:
 
@@ -21,13 +21,10 @@
 # Installation:
 
 1. Download [MacForge](https://github.com/w0lfschild/app_updates/raw/master/MacForge/MacForge.zip)
-2. Download [iTunesPlus](https://github.com/w0lfschild/iTunesPlus/raw/master/build/iTunesPlus.bundle.zip)
-3. Unzip downloads
-4. Open `iTunesPlus.bundle` with `MacForge.app`
-5. Disable System Integrity Protection
-6. Disable Apple Mobile File Integrity : `sudo nvram boot-args="amfi_get_out_of_my_way=1"`
-7. Reboot
-7. Open iTunes or Music
+2. Disable System Integrity Protection and Apple Mobile File Integrity : `sudo nvram boot-args="amfi_get_out_of_my_way=1"`
+3. Reboot
+4. Download [iTunesPlus](https://github.com/w0lfschild/iTunesPlus/raw/master/build/iTunesPlus.bundle.zip)
+5. Open iTunes or Music
 
 ### License:
 Pretty much the BSD license, just don't repackage it and call it your own please!    

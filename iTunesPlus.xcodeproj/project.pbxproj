@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FB5B2D0122FF64AB000FA9A4 /* NewOverlay.png in Resources */ = {isa = PBXBuildFile; fileRef = FB5B2D0022FF64AB000FA9A4 /* NewOverlay.png */; };
 		FBB05711205F1DA400C42495 /* iTunesPlus.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB05710205F1DA400C42495 /* iTunesPlus.m */; };
 		FBB05715205F1DA400C42495 /* ZKSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB05714205F1DA400C42495 /* ZKSwizzle.m */; };
 		FBB05717205F1DA400C42495 /* PrefixHeader.pch in Resources */ = {isa = PBXBuildFile; fileRef = FBB05716205F1DA400C42495 /* PrefixHeader.pch */; };
@@ -16,7 +15,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FB5B2D0022FF64AB000FA9A4 /* NewOverlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewOverlay.png; sourceTree = "<group>"; };
 		FBA8333523483753008DD73E /* Music.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Music.h; sourceTree = "<group>"; };
 		FBB05704205F1DA400C42495 /* iTunesPlus.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTunesPlus.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBB0570D205F1DA400C42495 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -92,7 +90,6 @@
 			children = (
 				FBB05721205F304600C42495 /* ClassicOverlay.png */,
 				FBB05720205F304500C42495 /* ModernOverlay.png */,
-				FB5B2D0022FF64AB000FA9A4 /* NewOverlay.png */,
 			);
 			name = Overlays;
 			sourceTree = "<group>";
@@ -156,7 +153,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBB05717205F1DA400C42495 /* PrefixHeader.pch in Resources */,
-				FB5B2D0122FF64AB000FA9A4 /* NewOverlay.png in Resources */,
 				FBB05723205F304600C42495 /* ClassicOverlay.png in Resources */,
 				FBB05722205F304600C42495 /* ModernOverlay.png in Resources */,
 			);
@@ -285,6 +281,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 8;
 				DEPLOYMENT_LOCATION = YES;
 				DEVELOPMENT_TEAM = EX596BNL45;
 				DSTROOT = /;
@@ -294,6 +291,7 @@
 				INSTALL_PATH = "/Library/Application Support/MacEnhance/Plugins";
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.w0lf.iTunesPlus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -308,6 +306,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 8;
 				DEPLOYMENT_LOCATION = YES;
 				DEVELOPMENT_TEAM = EX596BNL45;
 				DSTROOT = /;
@@ -317,6 +316,7 @@
 				INSTALL_PATH = "/Library/Application Support/MacEnhance/Plugins";
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.w0lf.iTunesPlus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -23,9 +23,7 @@ bool showBadge = true;
 int iconArt = 0;
 NSString *overlayPath;
 NSString *classicPath;
-NSString *newOverlayPath;
-NSUInteger osx_ver;
-
+NSString *musicApp;
 
 @implementation iTunesPlus
 
@@ -51,17 +49,20 @@ NSUInteger osx_ver;
 
     showBadge = [[sharedPrefs objectForKey:@"showBadge"] boolValue];
     iconArt = (int)[sharedPrefs integerForKey:@"iconArt"];
+    
+    musicApp = @"iTunes+";
+    if ([NSBundle.mainBundle.bundleIdentifier isEqualToString:@"com.apple.Music"]) musicApp = @"Music+";
 
     [plugin setMenu];
 
-    osx_ver = [[NSProcessInfo processInfo] operatingSystemVersion].minorVersion;
-    NSLog(@"%@ loaded into %@ on macOS 10.%ld", [self class], [[NSBundle mainBundle] bundleIdentifier], (long)osx_ver);
+    NSLog(@"%@ loaded into %@ on macOS %@", [self class], NSBundle.mainBundle.bundleIdentifier, NSProcessInfo.processInfo.operatingSystemVersionString);
 }
 
 - (void)updateTrackInfo:(NSNotification *)notification {
 //    NSDictionary *information = [notification userInfo];
 //    NSLog(@"iTunesPlus : track information: %@", information);
-    if (osx_ver <= 14) {
+    
+    if ([musicApp isEqualToString:@"iTunes+"]) {
         // Mojave and below iTunes app support
         
         iTunesApplication *app = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
@@ -139,7 +140,7 @@ NSUInteger osx_ver;
 - (void)setMenu {
     NSMenu* mainMenu = [NSApp mainMenu];
     itunesPlus = [plugin iTunesPlusMenu];
-    NSMenuItem* newItem = [[NSMenuItem alloc] initWithTitle:@"Item" action:nil keyEquivalent:@""];
+    NSMenuItem* newItem = [[NSMenuItem alloc] initWithTitle:musicApp action:nil keyEquivalent:@""];
     [newItem setSubmenu:itunesPlus];
     [mainMenu insertItem:newItem atIndex:mainMenu.itemArray.count];
 }
@@ -183,45 +184,21 @@ NSUInteger osx_ver;
 }
 
 - (NSImage*)imageRotatedByDegrees:(CGFloat)degrees :(NSImage*)img {
-    NSSize    size = [img size];
-    NSSize    newSize = NSMakeSize( size.width + 40,
-                                   size.height + 40 );
-
-    //    NSSize rotatedSize = NSMakeSize(img.size.height, img.size.width) ;
-    NSImage* rotatedImage = [[NSImage alloc] initWithSize:newSize] ;
-
-    NSAffineTransform* transform = [NSAffineTransform transform] ;
-
-    // In order to avoid clipping the image, translate
-    // the coordinate system to its center
-    //    [transform translateXBy:+img.size.width/2
-    //                        yBy:+img.size.height/2] ;
-
-    [transform translateXBy:img.size.width / 2
-                        yBy:img.size.height / 2];
-
-    // then rotate
+    NSSize size = img.size;
+    NSSize newSize = NSMakeSize(size.width + 40, size.height + 40);
+    NSImage *rotatedImage = [[NSImage alloc] initWithSize:newSize] ;
+    NSAffineTransform *transform = [NSAffineTransform transform] ;
+    [transform translateXBy:img.size.width/2 yBy:img.size.height/2];
     [transform rotateByDegrees:degrees] ;
-
-    // Then translate the origin system back to
-    // the bottom left
-    [transform translateXBy:-size.width/2
-                        yBy:-size.height/2] ;
-
-    //
-
+    [transform translateXBy:-size.width/2 yBy:-size.height/2] ;
     [rotatedImage lockFocus] ;
     [transform concat] ;
-    [img drawAtPoint:NSMakePoint(15,10)
-            fromRect:NSZeroRect
-           operation:NSCompositeCopy
-            fraction:1.0] ;
+    [img drawAtPoint:NSMakePoint(15,10) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0] ;
     [rotatedImage unlockFocus] ;
-
     return rotatedImage;
 }
 
-- (NSImage*)roundCorners:(NSImage *)image :(float)shrink {
+- (NSImage*)roundCorners:(NSImage *)image withRadius:(float)radius andShrink:(float)shrink {
     NSImage *existingImage = image;
     NSSize newSize = [existingImage size];
     NSImage *composedImage = [[NSImage alloc] initWithSize:newSize];
@@ -234,33 +211,49 @@ NSUInteger osx_ver;
     [composedImage lockFocus];
     [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
     NSRect imageFrame = NSRectFromCGRect(CGRectMake(xShift, yShift, (imgW * shrink), (imgH * shrink)));
-    NSBezierPath *clipPath = [NSBezierPath bezierPathWithRoundedRect:imageFrame xRadius:imgW yRadius:imgH];
+    NSBezierPath *clipPath = [NSBezierPath bezierPathWithRoundedRect:imageFrame xRadius:radius yRadius:radius];
     [clipPath setWindingRule:NSEvenOddWindingRule];
     [clipPath addClip];
     [image drawAtPoint:NSZeroPoint fromRect:NSMakeRect(0, 0, imgW, imgH) operation:NSCompositeSourceOver fraction:1];
     [composedImage unlockFocus];
 
-    //    NSData *imageData = [composedImage TIFFRepresentation];
-    //    NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:imageData];
-    //    imageData = [imageRep representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-    //    [imageData writeToFile:@"/Users/w0lf/Desktop/spotifree.png" atomically:YES];
-
     return composedImage;
 }
 
+- (NSString*)getOverlayPath:(NSString*)file {
+    NSString *result = @"/tmp";
+    NSString* bundlePath = [NSBundle bundleWithIdentifier:@"org.w0lf.iTunesPlus"].bundlePath;
+    if (bundlePath.length)
+        result = [bundlePath stringByAppendingFormat:@"/Contents/Resources/%@.png", file];
+    return result;
+}
+
+- (NSImage*)addOverlay:(NSString*)pathToOverlay toImage:(NSImage*)input  {
+    NSImage *overlay = [NSImage.alloc initByReferencingFile:pathToOverlay];
+    NSImage *newImage = [NSImage.alloc initWithSize:input.size];
+    [newImage lockFocus];
+    CGRect newImageRect = CGRectZero;
+    newImageRect.size = newImage.size;
+    [input drawInRect:newImageRect];
+    [overlay drawInRect:newImageRect];
+    [newImage unlockFocus];
+    return newImage;
+}
+
 - (NSImage*)createIconImage:(NSImage*)stockCover :(int)resultType {
-    // 0 = square
-    // 1 = tilded
-    // 2 = classic round
-    // 3 = modern round
-    //    NSString *myLittleCLIToolPath = NSProcessInfo.processInfo.arguments[0];
-    NSImage *resultIMG = [[NSImage alloc] init];
-    if (resultType == 1) {
+    // 0 = None
+    // 1 = square
+    // 2 = tilded
+    // 3 = classic round
+    // 4 = modern round
+    // 5 = rounded corners
+    
+    NSImage *resultIMG = NSImage.new;
+    if (resultType == 1)
         resultIMG = stockCover;
-    }
 
     if (resultType == 2) {
-        NSSize dims = [[NSApp dockTile] size];
+        NSSize dims = NSApp.dockTile.size;
 //        dims.width *= 0.9;
 //        dims.height *= 0.9;
         NSImage *smallImage = [[NSImage alloc] initWithSize: dims];
@@ -269,96 +262,43 @@ NSUInteger osx_ver;
         [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
         [stockCover drawAtPoint:NSZeroPoint fromRect:CGRectMake(0, 0, dims.width, dims.height) operation:NSCompositeCopy fraction:1.0];
         [smallImage unlockFocus];
-        smallImage = [plugin imageRotatedByDegrees:8.00 :smallImage];
+        smallImage = [self imageRotatedByDegrees:8.00 :smallImage];
         resultIMG = smallImage;
     }
 
     if (resultType == 3) {
-        if (![classicPath length]) {
-            classicPath = @"/tmp";
-            NSBundle* bundle = [NSBundle bundleWithIdentifier:@"org.w0lf.iTunesPlus"];
-            NSString* bundlePath = [bundle bundlePath];
-            if ([bundlePath length])
-                classicPath = [bundlePath stringByAppendingString:@"/Contents/Resources/ClassicOverlay.png"];
-        }
-        NSImage *rounded = [self roundCorners:stockCover :0.9];
-        NSImage *background = rounded;
-        NSImage *overlay = [[NSImage alloc] initByReferencingFile:classicPath];
-        NSImage *newImage = [[NSImage alloc] initWithSize:[background size]];
-        [newImage lockFocus];
-        CGRect newImageRect = CGRectZero;
-        newImageRect.size = [newImage size];
-        [background drawInRect:newImageRect];
-        [overlay drawInRect:newImageRect];
-        [newImage unlockFocus];
-        resultIMG = newImage;
+        if (![classicPath length])
+            classicPath = [self getOverlayPath:@"ClassicOverlay"];
+        NSImage *roundedCover = [self roundCorners:stockCover withRadius:stockCover.size.height andShrink:0.9];
+        resultIMG = [self addOverlay:classicPath toImage:roundedCover];
     }
 
     if (resultType == 4) {
-        if (![overlayPath length]) {
-            overlayPath = @"/tmp";
-            NSBundle* bundle = [NSBundle bundleWithIdentifier:@"org.w0lf.iTunesPlus"];
-            NSString* bundlePath = [bundle bundlePath];
-            if ([bundlePath length])
-                overlayPath = [bundlePath stringByAppendingString:@"/Contents/Resources/ModernOverlay.png"];
-        }
-        NSImage *rounded = [self roundCorners:stockCover :0.85];
-        NSImage *background = rounded;
-        NSImage *overlay = [[NSImage alloc] initByReferencingFile:overlayPath];
-        NSImage *newImage = [[NSImage alloc] initWithSize:[background size]];
-        [newImage lockFocus];
-        CGRect newImageRect = CGRectZero;
-        newImageRect.size = [newImage size];
-        [background drawInRect:newImageRect];
-        [overlay drawInRect:newImageRect];
-        [newImage unlockFocus];
-        resultIMG = newImage;
+        if (![overlayPath length])
+            overlayPath = [self getOverlayPath:@"ModernOverlay"];
+        NSImage *roundedCover = [self roundCorners:stockCover withRadius:stockCover.size.height andShrink:0.85];
+        resultIMG = [self addOverlay:overlayPath toImage:roundedCover];
     }
     
-    if (resultType == 5) {
-        if (![newOverlayPath length]) {
-            newOverlayPath = @"/tmp";
-            NSBundle* bundle = [NSBundle bundleWithIdentifier:@"org.w0lf.iTunesPlus"];
-            NSString* bundlePath = [bundle bundlePath];
-            if ([bundlePath length])
-                newOverlayPath = [bundlePath stringByAppendingString:@"/Contents/Resources/NewOverlay.png"];
-        }
-        
-        NSData *imageData = [[NSImage alloc] initWithContentsOfFile:newOverlayPath].TIFFRepresentation;
-        CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)imageData, NULL);
-        CGImageRef maskRef =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
-        CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
-                                            CGImageGetHeight(maskRef),
-                                            CGImageGetBitsPerComponent(maskRef),
-                                            CGImageGetBitsPerPixel(maskRef),
-                                            CGImageGetBytesPerRow(maskRef),
-                                            CGImageGetDataProvider(maskRef), nil, YES);
-        
-        NSData *imageData2 = stockCover.TIFFRepresentation;
-        CGImageSourceRef source2 = CGImageSourceCreateWithData((__bridge CFDataRef)imageData2, NULL);
-        CGImageRef maskRef2 =  CGImageSourceCreateImageAtIndex(source2, 0, NULL);
-        CGImageRef masked = CGImageCreateWithMask(maskRef2, mask);
-        NSSize dims = [[NSApp dockTile] size];
-        NSImage *newImage = [[NSImage alloc] initWithCGImage:masked size:CGSizeMake(dims.width, dims.height)];
-        resultIMG = newImage;
-    }
+    if (resultType == 5)
+        resultIMG = [self roundCorners:stockCover withRadius:stockCover.size.height/6 andShrink:0.8];
 
-    if (resultIMG == nil) {
+    if (resultIMG == nil)
         resultIMG = stockCover;
-    }
-
+    
     return resultIMG;
 }
 
 - (NSMenu*)dockAddiTunesPlus:(NSMenu*)original {
     // Spotify+ meun item
     NSMenuItem *mainItem = [[NSMenuItem alloc] init];
-    [mainItem setTitle:@"iTunes+"];
+    [mainItem setTitle:musicApp];
 
     NSMenu* dockspotplusMenu = [plugin iTunesPlusMenu];
     [mainItem setSubmenu:dockspotplusMenu];
+    [self updateMenu:dockspotplusMenu];
 
-    // Add iTunes+ item
+    // Add our menu item
     [original addItem:[NSMenuItem separatorItem]];
     [original addItem:mainItem];
 
@@ -383,7 +323,7 @@ NSUInteger osx_ver;
 
     // iTunes+ submenu
     NSMenu *submenuRoot = [[NSMenu alloc] init];
-    [submenuRoot setTitle:@"iTunes+"];
+    [submenuRoot setTitle:musicApp];
     [submenuRoot addItem:artMenu];
     [[submenuRoot addItemWithTitle:@"Show paused badge" action:@selector(setBadges:) keyEquivalent:@""] setTarget:plugin];
     [submenuRoot.itemArray.lastObject setTag:97];
@@ -398,11 +338,10 @@ NSUInteger osx_ver;
     if (original) {
         NSMenu* updatedMenu = original;
         [[updatedMenu itemWithTag:97] setState:showBadge];
-
         NSMenuItem* artMenu = [updatedMenu itemWithTag:101];
-        NSArray* artSub = [[artMenu submenu] itemArray];
+        NSArray* artSub = artMenu.submenu.itemArray;
         for (NSMenuItem* obj in artSub) [obj setState:NSControlStateValueOff];
-        [[artSub objectAtIndex:iconArt] setState:NSControlStateValueOn];
+        [artSub[iconArt] setState:NSControlStateValueOn];
     }
 }
 
